@@ -20,21 +20,19 @@ class LeaveRequestSeeder extends Seeder
         DB::table('leave_requests')->insert([
             [
                 'employee_id' => 1,
-                'leave_type' => 'Sick Leave',
+                'type' => 'Sick Leave',
                 'start_date' => Carbon::parse('2025-07-01'),
                 'end_date' => Carbon::parse('2025-07-05'),
                 'status' => 'approved',
-                'reason' => 'Flu and fever',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'employee_id' => 2,
-                'leave_type' => 'Vacation Leave',
+                'type' => 'Vacation Leave',
                 'start_date' => Carbon::parse('2025-07-10'),
                 'end_date' => Carbon::parse('2025-07-15'),
                 'status' => 'pending',
-                'reason' => 'Family trip',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]

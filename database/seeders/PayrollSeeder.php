@@ -23,9 +23,9 @@ class PayrollSeeder extends Seeder
             [
                 'employee_id' => 1,
                 'salary' => $faker->numberBetween(30000, 100000),
-                'bonus' => $faker->numberBetween(1000, 5000),
+                'allowances' => $faker->numberBetween(1000, 5000),
                 'deductions' => $faker->numberBetween(500, 2000),
-                'net_pay' => $faker->numberBetween(25000, 95000),
+                'net_salary' => $faker->numberBetween(25000, 95000),
                 'pay_date' => Carbon::parse('2025-07-15'),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -33,9 +33,9 @@ class PayrollSeeder extends Seeder
             [
                 'employee_id' => 2,
                 'salary' => $faker->numberBetween(30000, 100000),
-                'bonus' => $faker->numberBetween(1000, 5000),
+                'allowances' => $faker->numberBetween(1000, 5000),
                 'deductions' => $faker->numberBetween(500, 2000),
-                'net_pay' => $faker->numberBetween(25000, 95000),
+                'net_salary' => $faker->numberBetween(25000, 95000),
                 'pay_date' => Carbon::parse('2025-07-16'),
                 'created_at' => now(),
                 'updated_at' => now(),

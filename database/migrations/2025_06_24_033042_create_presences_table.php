@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade'); // Foreign key to employees table
             $table->date('date'); // Date of the presence record
-            $table->time('check_in_time')->nullable(); // Check-in time
-            $table->time('check_out_time')->nullable(); // Check-out time
+            $table->time('check_in')->nullable(); // Check-in time
+            $table->time('check_out')->nullable(); // Check-out time
             $table->string('status')->default('present'); // Status of the presence
             $table->timestamps();
             $table->softDeletes(); // For soft deletion

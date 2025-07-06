@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('payrolls', function (Blueprint $table) {
             $table->id();
             $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade'); // Foreign key to employees table
-            $table->decimal('basic_salary', 10, 2); // Basic salary of the employee
+            $table->decimal('salary', 10, 2); // Basic salary of the employee
             $table->decimal('allowances', 10, 2)->default(0);
             $table->decimal('deductions', 10, 2)->default(0);
             $table->decimal('net_salary', 10, 2)->default(0);

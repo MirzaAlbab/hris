@@ -20,21 +20,18 @@ class RoleSeeder extends Seeder
             [
                 'title' => 'HR',
                 'description' => "Handle person",
-                'status' => 'active',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
             [
                 'title' => 'Developer',
                 'description' => "Handling code",
-                'status' => 'active',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
             [
                 'title' => 'Sales',
                 'description' => "Handling selling",
-                'status' => 'active',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
