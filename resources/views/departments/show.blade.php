@@ -11,14 +11,14 @@
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Task</h3>
-                <p class="text-subtitle text-muted">Employee Task</p>
+                <h3>Department</h3>
+                <p class="text-subtitle text-muted">Department</p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item" aria-current="page">Task</li>
+                        <li class="breadcrumb-item" aria-current="page">Department</li>
                         <li class="breadcrumb-item active" aria-current="page">Detail</li>
                     </ol>
                 </nav>
@@ -34,26 +34,20 @@
             </div>
             <div class="card-body">
                 <div class="mb-3">
-                    <strong>Title:</strong> {{ $task->title }}
+                    <strong>Name:</strong> {{ $department->name }}
                 </div>
                 <div class="mb-3">
-                    <strong>Assigned to:</strong> {{ $task->employee->name }}
-                </div>
-                <div class="mb-3">
-                    <strong>Due date:</strong> {{ \Carbon\Carbon::parse($task->due_date)->format('d-m-Y') }}
+                    <strong>Description</strong> {{ $department->description }}
                 </div>
                 <div class="mb-3">
                     <strong>Status:</strong>
-                    @if($task->status == 'done')
-                        <span class="text-success">{{ $task->status }}</span>
+                    @if($department->status == 'active')
+                        <span class="text-success">{{ $department->status }}</span>
                     @else
-                        <span class="text-warning">{{ $task->status }}</span>
+                        <span class="text-secondary">{{ $department->status }}</span>
                     @endif
                 </div>
-                <div class="mb-3">
-                    <strong>Description:</strong> {{ $task->description }}
-                </div>
-                <a href="{{route('tasks.index')}}" class="btn btn-secondary"> Back to List</a>
+                <a href="{{route('departments.index')}}" class="btn btn-secondary"> Back to List</a>
             </div>
         </div>
     </section>

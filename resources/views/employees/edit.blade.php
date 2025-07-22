@@ -11,14 +11,14 @@
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Task</h3>
-                <p class="text-subtitle text-muted">Employee Task</p>
+                <h3>Employee</h3>
+                <p class="text-subtitle text-muted">Employee data</p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item" aria-current="page">Task</li>
+                        <li class="breadcrumb-item" aria-current="page">Employee</li>
                         <li class="breadcrumb-item active" aria-current="page">Edit</li>
                     </ol>
                 </nav>
@@ -33,34 +33,79 @@
                 </h5>
             </div>
             <div class="card-body">
-                <form action="{{ route('tasks.update', $task->id)}}" class="needs-validation" method="post">
+                <form action="{{ route('employees.update', $employee->id)}}" class="needs-validation" method="post">
                     @csrf
                     @method('PUT')
                     <div class="form-group mb-2">
-                        <label for="title">Title</label>
-                        <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" placeholder="Enter title" name="title" value="{{ old('title',$task->title)}}">
-                        @error('title')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    
-                    <div class="form-group mb-2">
-                        <label for="employee">Employee</label>
-                        <select type="text" class="form-control @error('assigned_to') is-invalid @enderror" id="employee" name="assigned_to">
-                            <option value="">Select employee</option>
-                            @foreach($employees as $employee)
-                            <option value="{{ $employee->id }}" {{ old('employee',$task->assigned_to) == $employee->id ? 'selected' : '' }}>{{ $employee->name }}</option>
-                            @endforeach
-                        </select>
-                        @error('assigned_to')
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Enter name" name="name" value="{{ old('name',$employee->name)}}">
+                        @error('name')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="form-group mb-2">
-                        <label for="due_date">Due date</label>
-                        <input type="datetime" class="form-control date @error('due_date') is-invalid @enderror" id="due_date" name="due_date" value="{{ old('due_date',$task->due_date)}}">
-                        @error('due_date')
+                        <label for="email">Email</label>
+                        <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="Enter email" name="email" value="{{ old('email',$employee->email)}}">
+                        @error('email')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label for="phone">Phone Number</label>
+                        <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" placeholder="Enter phone" name="phone" value="{{ old('phone',$employee->phone)}}">
+                        @error('phone')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label for="address">Address</label>
+                        <textarea class="form-control @error('address') is-invalid @enderror" placeholder="Enter address" id="address" name="address">{{$employee->address}}</textarea>
+                        @error('address')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    
+                    <div class="form-group mb-2">
+                        <label for="department">Department</label>
+                        <select type="text" class="form-control @error('department_id') is-invalid @enderror" id="department" name="department_id">
+                            <option value="">Select department</option>
+                            @foreach($departments as $department)
+                            <option value="{{ $department->id }}" {{ old('department',$employee->department->id) == $department->id ? 'selected' : '' }}>{{ $department->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('department_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label for="role">Role</label>
+                        <select type="text" class="form-control @error('role_id') is-invalid @enderror" id="role" name="role_id">
+                            <option value="">Select role</option>
+                            @foreach($roles as $role)
+                            <option value="{{ $role->id }}" {{ old('role',$employee->role->id) == $role->id ? 'selected' : '' }}>{{ $role->title }}</option>
+                            @endforeach
+                        </select>
+                        @error('role_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label for="birth_date">Birth date</label>
+                        <input type="datetime" class="form-control date @error('birth_date') is-invalid @enderror" id="birth_date" name="birth_date" value="{{ old('birth_date',$employee->birth_date)}}">
+                        @error('birth_date')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label for="hire_date">Hire date</label>
+                        <input type="datetime" class="form-control date @error('hire_date') is-invalid @enderror" id="hire_date" name="hire_date" value="{{ old('hire_date',$employee->hire_date)}}">
+                        @error('hire_date')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
@@ -69,24 +114,25 @@
                         <label for="status">Status</label>
                         <select type="text" class="form-control @error('status') is-invalid @enderror" id="status" name="status">
                             <option value="">Select status</option>
-                            <option value="pending" {{ old('status',$task->status) == 'pending' ? 'selected' : '' }}>Pending</option>
-                            <option value="on_progress" {{ old('status',$task->status) == 'on_progress' ? 'selected' : ''}}>On Progress</option>
+                            <option value="inactive" {{ old('status',$employee->status) == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                            <option value="active" {{ old('status',$employee->status) == 'active' ? 'selected' : ''}}>Active</option>
                         </select>
                             @error('status')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                     </div>
+
                     <div class="form-group mb-2">
-                        <label for="description">Description</label>
-                        <textarea class="form-control @error('description') is-invalid @enderror" placeholder="Enter description" id="description">{{old('description', $task->description)}}</textarea>
-                        @error('description')
+                        <label for="salary">Salary</label>
+                        <input type="text" class="form-control @error('salary') is-invalid @enderror" id="salary" placeholder="Enter salary" name="salary" value="{{ old('salary',$employee->salary)}}">
+                        @error('salary')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="mt-2">
                         <button type="submit" class="btn btn-primary">Update</button>
-                        <a href="{{ route('tasks.index') }}" class="btn btn-secondary">Back to List</a>
+                        <a href="{{ route('employees.index') }}" class="btn btn-secondary">Back to List</a>
                     </div>
                 </form>
             </div>

@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\EmployeeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -10,6 +12,11 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
+
+// handle employee
+Route::resource('/employees', EmployeeController::class);
+Route::resource('/departments', DepartmentController::class);
+// handle task
 Route::resource('/tasks', TaskController::class);
 Route::get('/tasks/done/{tasks}', [TaskController::class,'markAsDone'])->name('tasks.done');
 Route::get('/tasks/pending/{tasks}', [TaskController::class,'markAsPending'])->name('tasks.pending');
