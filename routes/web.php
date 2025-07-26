@@ -5,6 +5,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\PresenceController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,7 @@ Route::resource('/employees', EmployeeController::class);
 Route::resource('/departments', DepartmentController::class);
 Route::resource('/roles', RoleController::class);
 Route::resource('/presences', PresenceController::class);
+Route::resource('/payrolls', PayrollController::class);
 // handle task
 Route::resource('/tasks', TaskController::class);
 Route::get('/tasks/done/{tasks}', [TaskController::class,'markAsDone'])->name('tasks.done');

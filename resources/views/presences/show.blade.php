@@ -11,14 +11,14 @@
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Role</h3>
-                <p class="text-subtitle text-muted">Role</p>
+                <h3>Presences</h3>
+                <p class="text-subtitle text-muted">Presences</p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item" aria-current="page">Role</li>
+                        <li class="breadcrumb-item" aria-current="page">Presences</li>
                         <li class="breadcrumb-item active" aria-current="page">Detail</li>
                     </ol>
                 </nav>
@@ -34,12 +34,21 @@
             </div>
             <div class="card-body">
                 <div class="mb-3">
-                    <strong>Title:</strong> {{ $role->title }}
+                    <strong>Employee:</strong> {{ $presence->employee->name }}
                 </div>
                 <div class="mb-3">
-                    <strong>Description</strong> {{ $role->description }}
+                    <strong>Date:</strong> {{ $presence->date }}
                 </div>
-                <a href="{{route('roles.index')}}" class="btn btn-secondary"> Back to List</a>
+                <div class="mb-3">
+                    <strong>Check in:</strong> {{ $presence->check_in }}
+                </div>
+                <div class="mb-3">
+                    <strong>Check Out:</strong> {{ $presence->check_out }}
+                </div>
+                <div class="mb-3">
+                    <strong>Status:</strong> {{ $presence->status }}
+                </div>
+                <a href="{{route('presences.index')}}" class="btn btn-secondary"> Back to List</a>
             </div>
         </div>
     </section>
