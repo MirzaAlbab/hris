@@ -15,21 +15,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard')->middleware('role:HR,Developer,Sales');
+    Route::resource('/employees', EmployeeController::class)->middleware('role:HR');
+    Route::resource('/departments', DepartmentController::class)->middleware('role:HR');;
+    Route::resource('/roles', RoleController::class)->middleware('role:HR');;
+    Route::resource('/presences', PresenceController::class)->middleware('role:HR,Developer,Sales');
+    Route::resource('/payrolls', PayrollController::class)->middleware('role:HR,Developer,Sales');
+    Route::resource('/leave-requests', LeaveRequestController::class)->middleware('role:HR,Developer,Sales');
+    Route::get('/leave-requests/confirm/{id}', [LeaveRequestController::class, 'confirm'])->name('leave-requests.confirm')->middleware('role:HR');
+    Route::get('/leave-requests/reject/{id}', [LeaveRequestController::class, 'reject'])->name('leave-requests.reject')->middleware('role:HR');
+    Route::resource('/tasks', TaskController::class)->middleware('role:HR,Developer,Sales');
+    Route::get('/tasks/done/{tasks}', [TaskController::class,'markAsDone'])->name('tasks.done')->middleware('role:HR,Developer,Sales');
+    Route::get('/tasks/pending/{tasks}', [TaskController::class,'markAsPending'])->name('tasks.pending')->middleware('role:HR,Developer,Sales');
+});
 
-// handle employee
-Route::resource('/employees', EmployeeController::class);
-Route::resource('/departments', DepartmentController::class);
-Route::resource('/roles', RoleController::class);
-Route::resource('/presences', PresenceController::class);
-Route::resource('/payrolls', PayrollController::class);
-Route::resource('/leave-requests', LeaveRequestController::class);
-Route::get('/leave-requests/confirm/{id}', [LeaveRequestController::class, 'confirm'])->name('leave-requests.confirm');
-Route::get('/leave-requests/reject/{id}', [LeaveRequestController::class, 'reject'])->name('leave-requests.reject');
-// handle task
-Route::resource('/tasks', TaskController::class);
-Route::get('/tasks/done/{tasks}', [TaskController::class,'markAsDone'])->name('tasks.done');
-Route::get('/tasks/pending/{tasks}', [TaskController::class,'markAsPending'])->name('tasks.pending');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
