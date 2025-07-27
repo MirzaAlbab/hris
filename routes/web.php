@@ -24,6 +24,8 @@ Route::resource('/roles', RoleController::class);
 Route::resource('/presences', PresenceController::class);
 Route::resource('/payrolls', PayrollController::class);
 Route::resource('/leave-requests', LeaveRequestController::class);
+Route::get('/leave-requests/confirm/{id}', [LeaveRequestController::class, 'confirm'])->name('leave-requests.confirm');
+Route::get('/leave-requests/reject/{id}', [LeaveRequestController::class, 'reject'])->name('leave-requests.reject');
 // handle task
 Route::resource('/tasks', TaskController::class);
 Route::get('/tasks/done/{tasks}', [TaskController::class,'markAsDone'])->name('tasks.done');
