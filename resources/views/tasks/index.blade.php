@@ -33,9 +33,11 @@
                 </h5>
             </div>
             <div class="card-body">
+                @if(session('role') == 'HR')
                 <div class="d-flex">
                     <a href="{{route('tasks.create')}}" class="btn btn-info btn-sm ms-auto mb-3">New Task</a>
                 </div>
+                @endif
                 @if(session('success'))
                 <div class="alert alert-success">{{session('success')}}</div>
                 @elseif(session('error'))
@@ -75,12 +77,14 @@
                                 @else
                                 <a href="{{route('tasks.done', $task->id)}}" class="btn btn-success btn-sm"> Mark as Done</a>
                                 @endif
+                                @if(session('role') == 'HR')
                                 <a href="{{route('tasks.edit',$task->id)}}" class="btn btn-secondary btn-sm">Edit</a>
                                 <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                 </form>
+                                @endif
                             </td>
                         </tr>
                        @endforeach
