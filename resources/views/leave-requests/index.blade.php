@@ -70,21 +70,23 @@
                                 @endif
                             </td>
                             <td>
-                                @if($leaveRequest->status == 'confirm')
-                                    <a href="{{route('leave-requests.reject',$leaveRequest->id)}}" class="btn btn-danger btn-sm">Reject</a>
-                                @elseif($leaveRequest->status == 'reject')
-                                    <a href="{{route('leave-requests.confirm',$leaveRequest->id)}}" class="btn btn-success btn-sm">Confirm</a>
-                                @else
-                                    <a href="{{route('leave-requests.confirm',$leaveRequest->id)}}" class="btn btn-success btn-sm">Confirm</a>
-                                    <a href="{{route('leave-requests.reject',$leaveRequest->id)}}" class="btn btn-danger btn-sm">Reject</a>
-                                @endif
                                 <a href="{{route('leave-requests.show',$leaveRequest->id)}}" class="btn btn-info btn-sm">View</a>
-                                <a href="{{route('leave-requests.edit',$leaveRequest->id)}}" class="btn btn-secondary btn-sm">Edit</a>
-                                <form action="{{ route('leave-requests.destroy', $leaveRequest->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                </form>
+                                @if(session('role') == "HR")
+                                    @if($leaveRequest->status == 'confirm')
+                                        <a href="{{route('leave-requests.reject',$leaveRequest->id)}}" class="btn btn-danger btn-sm">Reject</a>
+                                    @elseif($leaveRequest->status == 'reject')
+                                        <a href="{{route('leave-requests.confirm',$leaveRequest->id)}}" class="btn btn-success btn-sm">Confirm</a>
+                                    @else
+                                        <a href="{{route('leave-requests.confirm',$leaveRequest->id)}}" class="btn btn-success btn-sm">Confirm</a>
+                                        <a href="{{route('leave-requests.reject',$leaveRequest->id)}}" class="btn btn-danger btn-sm">Reject</a>
+                                    @endif
+                                    <a href="{{route('leave-requests.edit',$leaveRequest->id)}}" class="btn btn-secondary btn-sm">Edit</a>
+                                    <form action="{{ route('leave-requests.destroy', $leaveRequest->id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                        @endforeach

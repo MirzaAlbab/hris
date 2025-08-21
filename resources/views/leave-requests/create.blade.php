@@ -35,6 +35,7 @@
             <div class="card-body">
                 <form action="{{ route('leave-requests.store')}}" class="needs-validation" method="post">
                     @csrf
+                    @if(session('role') == "HR")
                     <div class="form-group mb-2">
                         <label for="employee">Employee</label>
                         <select type="text" class="form-control @error('employee_id') is-invalid @enderror" id="employee" name="employee_id">
@@ -47,6 +48,7 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                    @endif
                     <div class="form-group mb-2">
                         <label for="type">Type</label>
                         <select type="text" class="form-control @error('type') is-invalid @enderror" id="type" name="type">

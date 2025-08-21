@@ -10,7 +10,11 @@ class LeaveRequestController extends Controller
 {
     public function index()
     {
-        $leaveRequests = Leave_request::all();
+        if(session('role') == "HR"){
+            $leaveRequests = Leave_request::all();
+        }else{
+            $leaveRequests = Leave_request::where('employee_id', session('employee_id'))->get();
+        }
         return view ('leave-requests.index',compact('leaveRequests'));
     }
 
@@ -22,14 +26,23 @@ class LeaveRequestController extends Controller
 
     public function store (Request $request)
     {
-        $validated = $request->validate([
-            'employee_id' => 'required',
-            'type' => 'required',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-        ]);
+        if(session('role') == "HR"){
+            $validated = $request->validate([
+                'employee_id' => 'required',
+                'type' => 'required',
+                'start_date' => 'required|date',
+                'end_date' => 'required|date|after_or_equal:start_date',
+            ]);
 
-        Leave_request::create($validated);
+            Leave_request::create($validated);
+        }else{
+            Leave_request::create([
+                'employee_id' => session('employee_id'),
+                'type' => $request->type,
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+            ]);
+        }
 
         return redirect()->route('leave-requests.index')->with('success', 'Leave request created successfully.');
     }
