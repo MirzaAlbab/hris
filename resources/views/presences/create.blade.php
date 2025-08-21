@@ -33,6 +33,7 @@
                 </h5>
             </div>
             <div class="card-body">
+                @if(session('role') === "HR")
                 <form action="{{ route('presences.store')}}" class="needs-validation" method="post">
                     @csrf
                     <div class="form-group mb-2">
@@ -89,8 +90,68 @@
                         <a href="{{ route('presences.index') }}" class="btn btn-secondary">Back to List</a>
                     </div>
                 </form>
+                @endif
+                @if(session('role') !== "HR")
+                    <form action="{{ route('presences.store')}}" class="needs-validation" method="post">
+                        @csrf
+                        <div class="mb-3">
+                            <b>Note:</b>: Mohon ijinkan akses lokasi pada browser agar bisa melakukan presensi.
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="latitude">Check in</label>
+                            <input type="text" class="form-control @error('latitude') is-invalid @enderror" id="latitude" name="latitude" value="{{ old('latitude')}}">
+                        </div>
+                        
+                        <div class="form-group mb-2">
+                            <label for="longitude">Check in</label>
+                            <input type="text" class="form-control @error('longitude') is-invalid @enderror" id="longitude" name="longitude" value="{{ old('longitude')}}">
+                        </div>
+
+                        <iframe src="" frameborder="0" id="map" width="500" height="400" scrolling="no">
+                        </iframe>
+
+                        <div class="mb-">
+                            <button type="submit" class="btn btn-primary" id="btn-present" disabled>Present</button>
+                        </div>
+                    </form>
+                @endif
             </div>
         </div>
     </section>
+
+    <script>
+        const iframe = document.getElementById('map');
+
+        const ofcLat = -7.270672447816188;
+        const ofcLon = 112.75980492436126;
+        const threshold = 0.01;
+
+        navigator.geolocation.getCurrentPosition((position) =>{
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            iframe.src = `https://maps.google.com/maps?q=${lat},${lon}&output=embed`;
+        });
+
+        document.addEventListener('DOMContentLoaded', (event) =>{
+            if(navigator.geolocation){
+                navigator.geolocation.getCurrentPosition((position) =>{
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+
+                    document.getElementById('latitude').value = lat;
+                    document.getElementById('longitude').value = lon;
+
+                   const distance = Math.sqrt(Math.pow(lat - ofcLat, 2)+ Math.pow(lon - ofcLon, 2));
+
+                   if (distance <= threshold){
+                    alert('Kamu berada di kantor, selamat bekerja');
+                    document.getElementById('btn-present').removeAttribute('disabled');
+                   }else{
+                    alert("Kamu tidak berada di kantor, silakan ke kantor untuk presensi ")
+                   }
+                })
+            }
+        })
+    </script>
 @endsection
         

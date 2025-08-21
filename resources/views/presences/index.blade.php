@@ -69,12 +69,14 @@
                             </td>
                             <td>
                                 <a href="{{route('presences.show',$presence->id)}}" class="btn btn-info btn-sm">View</a>
+                                @if(session('role') == "HR")
                                 <a href="{{route('presences.edit',$presence->id)}}" class="btn btn-secondary btn-sm">Edit</a>
                                 <form action="{{ route('presences.destroy', $presence->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                 </form>
+                                @endif
                             </td>
                         </tr>
                        @endforeach

@@ -23,7 +23,7 @@ class CheckRoles
         $employee = Employee::find($employeeID);
 
         $request->session()->put('role', $employee->role->title);
-        $request->session()->put('employeeID', $employee->id);
+        $request->session()->put('employee_id', $employee->id);
 
         if(!in_array($employee->role->title, $roles)) {
             abort(403, 'Unauthorized action.');
