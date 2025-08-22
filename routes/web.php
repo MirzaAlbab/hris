@@ -12,11 +12,12 @@ use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard')->middleware('role:HR,Developer,Sales');
+    Route::get('/dashboard/presence', [DashboardController::class,'presence']);
     Route::resource('/employees', EmployeeController::class)->middleware('role:HR');
     Route::resource('/departments', DepartmentController::class)->middleware('role:HR');;
     Route::resource('/roles', RoleController::class)->middleware('role:HR');;

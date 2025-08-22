@@ -18,6 +18,11 @@
     <link rel="stylesheet" href="{{asset('mazer/dist/assets/compiled/css/app.css')}}">
     <link rel="stylesheet" href="{{asset('mazer/dist/assets/compiled/css/app-dark.css')}}">
     <link rel="stylesheet" href="{{asset('mazer/dist/assets/compiled/css/iconly.css')}}">
+    
+    {{-- dripicons --}}
+    <link rel="stylesheet" href="{{asset('mazer/dist/assets/extensions/@icon/dripicons/dripicons.css')}}">
+    <link rel="stylesheet" href="{{asset('mazer/dist/assets/compiled/css/ui-icons-dripicons.css')}}">
+    
 </head>
 
 <body>
@@ -194,11 +199,14 @@
 <script src="{{asset('mazer/dist/assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>  
 <script src="{{asset('mazer/dist/assets/compiled/js/app.js')}}"></script>   
 <!-- Need: Apexcharts -->
-<script src="{{asset('mazer/dist/assets/extensions/apexcharts/apexcharts.min.js')}}"></script>
 <script src="{{asset('mazer/dist/assets/static/js/pages/dashboard.js')}}"></script>
+<script src="{{asset('mazer/dist/assets/extensions/apexcharts/apexcharts.min.js')}}"></script>
 {{-- Datatable --}}
 <script src="{{asset('mazer/dist/assets/extensions/simple-datatables/umd/simple-datatables.js')}}"></script>
 <script src="{{asset('mazer/dist/assets/static/js/pages/simple-datatables.js')}}"></script>
+
+{{-- ChartJs --}}
+<script src="{{asset('mazer/dist/assets/extensions/chart.js/chart.umd.js')}}"></script>
 
 {{-- date --}}
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -214,7 +222,46 @@
         noCalendar: true,
         dateFormat: "H:i:s",
         time_24hr: true
+    })
+    
+    var ctxBar = document.getElementById("presence").getContext("2d");
+    var myBar = new Chart(ctxBar,{
+        type: 'bar',
+        data: {
+            labels: ['January', 'February', "March", "April", "May", "June"],
+            datasets: [{
+                label: "Total",
+                data:[],
+                backgroundColor: 'rgba(63,82,22,71)',
+                borderColor: "#57CAEB"
+            }]
+        },
+        options :{
+            scales: {
+                y:{
+                    beginAtZero:true
+                }
+            }
+        }
     });
+
+    function updateData(){
+        fetch("/dashboard/presence")
+        .then(response => response.json())
+        .then((output) => {
+            myBar.data.datasets =[
+                {
+                label: "Total",
+                data:output,
+                backgroundColor: 'rgba(63,82,22,71)',
+                borderColor: "#57CAEB"
+                }
+            ];
+            myBar.update()
+        })
+    }
+
+    updateData();
 </script>
 </body>
 
