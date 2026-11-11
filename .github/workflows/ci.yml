@@ -1,0 +1,47 @@
+name: Application checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, dom, pdo_sqlite
+          coverage: none
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: composer install --no-interaction --prefer-dist
+      - run: cp .env.example .env
+      - run: php artisan key:generate
+      - run: npm ci
+      - run: npm run build
+      - run: php artisan test
+      - run: npx playwright install --with-deps chromium
+      - name: Start the seeded demo
+        run: |
+          touch database/demo.sqlite
+          export DB_DATABASE="$PWD/database/demo.sqlite"
+          php artisan migrate --force
+          php artisan db:seed --class=DemoSeeder --force
+          php artisan serve --no-reload --host=127.0.0.1 --port=8000 > /tmp/hris-demo.log 2>&1 &
+      - name: Wait for the demo
+        run: |
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:8000/up; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/hris-demo.log
+          exit 1
+      - run: npm run test:browser

@@ -4,11 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\Employee;
-
-use function Pest\Laravel\put;
 
 class CheckRoles
 {
@@ -19,15 +15,13 @@ class CheckRoles
      */
     public function handle(Request $request, Closure $next, string ...$roles): Response
     {
-        $employeeID = Auth::user()->employee_id;
-        $employee = Employee::find($employeeID);
+        $employee = $request->user()?->employee;
+        $role = $employee?->role?->title;
 
-        $request->session()->put('role', $employee->role->title);
+        abort_unless($employee && $role && in_array($role, $roles, true), 403, 'Unauthorized action.');
+
+        $request->session()->put('role', $role);
         $request->session()->put('employee_id', $employee->id);
-
-        if(!in_array($employee->role->title, $roles)) {
-            abort(403, 'Unauthorized action.');
-        }
 
         return $next($request);
     }

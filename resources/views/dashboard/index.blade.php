@@ -114,8 +114,8 @@
                                     <tr>
                                         <td class="col-3">
                                             <div class="d-flex align-items-center">
-                                                <div class="avatar avatar-md">
-                                                    <img src="https://ui-avatars.com/api/?name={{$task->employee->name}}&background=random">
+                                                <div class="avatar avatar-md bg-primary" aria-hidden="true">
+                                                    <span class="avatar-content">{{ mb_substr($task->employee->name, 0, 1) }}</span>
                                                 </div>
                                                 <p class="font-bold ms-3 mb-0">{{$task->employee->name}}</p>
                                             </div>

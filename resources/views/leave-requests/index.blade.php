@@ -73,12 +73,28 @@
                                 <a href="{{route('leave-requests.show',$leaveRequest->id)}}" class="btn btn-info btn-sm">View</a>
                                 @if(session('role') == "HR")
                                     @if($leaveRequest->status == 'confirm')
-                                        <a href="{{route('leave-requests.reject',$leaveRequest->id)}}" class="btn btn-danger btn-sm">Reject</a>
+                                        <form action="{{route('leave-requests.reject',$leaveRequest->id)}}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                                        </form>
                                     @elseif($leaveRequest->status == 'reject')
-                                        <a href="{{route('leave-requests.confirm',$leaveRequest->id)}}" class="btn btn-success btn-sm">Confirm</a>
+                                        <form action="{{route('leave-requests.confirm',$leaveRequest->id)}}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="btn btn-success btn-sm">Confirm</button>
+                                        </form>
                                     @else
-                                        <a href="{{route('leave-requests.confirm',$leaveRequest->id)}}" class="btn btn-success btn-sm">Confirm</a>
-                                        <a href="{{route('leave-requests.reject',$leaveRequest->id)}}" class="btn btn-danger btn-sm">Reject</a>
+                                        <form action="{{route('leave-requests.confirm',$leaveRequest->id)}}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="btn btn-success btn-sm">Confirm</button>
+                                        </form>
+                                        <form action="{{route('leave-requests.reject',$leaveRequest->id)}}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                                        </form>
                                     @endif
                                     <a href="{{route('leave-requests.edit',$leaveRequest->id)}}" class="btn btn-secondary btn-sm">Edit</a>
                                     <form action="{{ route('leave-requests.destroy', $leaveRequest->id) }}" method="POST" class="d-inline">

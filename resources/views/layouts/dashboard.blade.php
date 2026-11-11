@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{ asset('mazer/dist/assets/extensions/simple-datatables/style.css')}}">
     
     {{-- datetime --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="{{ asset('mazer/dist/assets/extensions/flatpickr/flatpickr.min.css') }}">
 
     <link rel="stylesheet" href="{{asset('mazer/dist/assets/compiled/css/app.css')}}">
     <link rel="stylesheet" href="{{asset('mazer/dist/assets/compiled/css/app-dark.css')}}">
@@ -33,7 +33,7 @@
                 <div class="sidebar-header position-relative">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="logo">
-                            <a href="index.html"><img src="{{asset('mazer/dist/assets/compiled/svg/logo.svg')}}" alt="Logo" srcset=""></a>
+                            <a href="{{ route('dashboard') }}"><img src="{{asset('mazer/dist/assets/compiled/svg/logo.svg')}}" alt="Logo" srcset=""></a>
                         </div>
                         <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
@@ -83,7 +83,7 @@
                                 class="sidebar-item {{request()->is('employees') ? 'active': ''}}">
                                 <a href="{{route('employees.index')}}" class='sidebar-link'>
                                     <i class="bi bi-people-fill"></i>
-                                    <span>Employess</span>
+                                    <span>Employees</span>
                                 </a>    
                             </li>           
                             <li
@@ -169,16 +169,22 @@
 
                             <li
                                 class="sidebar-item ">
-                                <a href="{{url('/logout')}}" class='sidebar-link'>
-                                    <i class="bi bi-box-arrow-right"></i>
-                                    <span>Logout</span>
-                                </a>    
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="sidebar-link border-0 bg-transparent w-100">
+                                        <i class="bi bi-box-arrow-right"></i>
+                                        <span>Logout</span>
+                                    </button>
+                                </form>
                             </li>           
                         </ul>
                     </div>
                 </div>
         </div>
         <div id="main">
+            @if(config('demo.enabled'))
+                <div class="alert alert-info" role="status">Demo workspace &middot; Fictional employee data</div>
+            @endif
             @yield('content')
 
             <footer>
@@ -199,17 +205,20 @@
 <script src="{{asset('mazer/dist/assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>  
 <script src="{{asset('mazer/dist/assets/compiled/js/app.js')}}"></script>   
 <!-- Need: Apexcharts -->
-<script src="{{asset('mazer/dist/assets/static/js/pages/dashboard.js')}}"></script>
+
 <script src="{{asset('mazer/dist/assets/extensions/apexcharts/apexcharts.min.js')}}"></script>
 {{-- Datatable --}}
 <script src="{{asset('mazer/dist/assets/extensions/simple-datatables/umd/simple-datatables.js')}}"></script>
-<script src="{{asset('mazer/dist/assets/static/js/pages/simple-datatables.js')}}"></script>
+<script>
+    const dataTable = document.getElementById('table1');
+    if (dataTable) new simpleDatatables.DataTable(dataTable);
+</script>
 
 {{-- ChartJs --}}
 <script src="{{asset('mazer/dist/assets/extensions/chart.js/chart.umd.js')}}"></script>
 
 {{-- date --}}
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="{{ asset('mazer/dist/assets/extensions/flatpickr/flatpickr.min.js') }}"></script>
 
 <script>
     // Initialize flatpickr for date inputs
@@ -224,15 +233,17 @@
         time_24hr: true
     })
     
-    var ctxBar = document.getElementById("presence").getContext("2d");
+    const presenceCanvas = document.getElementById("presence");
+    if (presenceCanvas) {
+    var ctxBar = presenceCanvas.getContext("2d");
     var myBar = new Chart(ctxBar,{
         type: 'bar',
         data: {
-            labels: ['January', 'February', "March", "April", "May", "June"],
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
             datasets: [{
                 label: "Total",
                 data:[],
-                backgroundColor: 'rgba(63,82,22,71)',
+                backgroundColor: 'rgba(67, 94, 190, 0.75)',
                 borderColor: "#57CAEB"
             }]
         },
@@ -253,7 +264,7 @@
                 {
                 label: "Total",
                 data:output,
-                backgroundColor: 'rgba(63,82,22,71)',
+                backgroundColor: 'rgba(67, 94, 190, 0.75)',
                 borderColor: "#57CAEB"
                 }
             ];
@@ -262,6 +273,7 @@
     }
 
     updateData();
+    }
 </script>
 </body>
 
