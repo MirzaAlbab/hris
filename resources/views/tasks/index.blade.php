@@ -66,16 +66,24 @@
                                 @elseif($task->status == 'pending')
                                     <span class="badge bg-warning">Pending</span>
                                 @else
-                                    <span class="badge bg-secondary">{{task->status}}</span>
+                                    <span class="badge bg-secondary">{{$task->status}}</span>
                                 @endif
 
                             </td>
                             <td>
                                 <a href="{{route('tasks.show',$task->id)}}" class="btn btn-info btn-sm">View</a>
                                 @if($task->status == 'done')
-                                <a href="{{route('tasks.pending', $task->id)}}" class="btn btn-warning btn-sm">Mark as Pending</a>
+                                <form action="{{route('tasks.pending', $task->id)}}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="btn btn-warning btn-sm">Mark as Pending</button>
+                                        </form>
                                 @else
-                                <a href="{{route('tasks.done', $task->id)}}" class="btn btn-success btn-sm"> Mark as Done</a>
+                                <form action="{{route('tasks.done', $task->id)}}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="btn btn-success btn-sm">Mark as Done</button>
+                                        </form>
                                 @endif
                                 @if(session('role') == 'HR')
                                 <a href="{{route('tasks.edit',$task->id)}}" class="btn btn-secondary btn-sm">Edit</a>
